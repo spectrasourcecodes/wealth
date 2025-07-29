@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USDT Investment Platform - Register</title>
+    <style>
+        /* Reusing styles from login.html with additions */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        
+        header {
+            background-color: #1a237e;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .auth-form {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 400px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .auth-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1a237e;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #303f9f;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .form-footer a {
+            color: #1a237e;
+            text-decoration: none;
+        }
+        
+        footer {
+            background-color: #1a237e;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+        }
+        
+        /* Password strength indicator */
+        .password-strength {
+            margin-top: 5px;
+            height: 5px;
+            background-color: #eee;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s, background-color 0.3s;
+        }
+        
+        /* Responsive Styles */
+        @media (min-width: 768px) {
+            .auth-form {
+                padding: 30px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">USDT Investment</div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="auth-form">
+            <h2>Create Your Account</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Create a password">
+                    <div class="password-strength">
+                        <div class="strength-bar" id="strengthBar"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
+                </div>
+                <div class="form-group">
+                    <label for="walletAddress">USDT Wallet Address</label>
+                    <input type="text" id="walletAddress" name="walletAddress" required placeholder="Enter your USDT wallet address">
+                </div>
+                <div class="form-group">
+                    <label for="referralCode">Referral Code (Optional)</label>
+                    <input type="text" id="referralCode" name="referralCode" placeholder="Enter referral code if any">
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to the <a href="#">Terms and Conditions</a></label>
+                </div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+            <div class="form-footer">
+                <p>Already have an account? <a href="login.html">Login here</a></p>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 USDT Investment Platform. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Password strength indicator
+        document.getElementById('password').addEventListener('input', function(e) {
+            const password = e.target.value;
+            const strengthBar = document.getElementById('strengthBar');
+            let strength = 0;
+            
+            if (password.length > 0) strength += 20;
+            if (password.length >= 8) strength += 20;
+            if (/[A-Z]/.test(password)) strength += 20;
+            if (/[0-9]/.test(password)) strength += 20;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+            
+            strengthBar.style.width = strength + '%';
+            
+            if (strength < 40) {
+                strengthBar.style.backgroundColor = '#ff5252';
+            } else if (strength < 80) {
+                strengthBar.style.backgroundColor = '#ffab40';
+            } else {
+                strengthBar.style.backgroundColor = '#4caf50';
+            }
+        });
+        
+        // Form validation and submission
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const walletAddress = document.getElementById('walletAddress').value;
+            const terms = document.getElementById('terms').checked;
+            
+            // Basic validation
+            if (!fullName || !email || !phone || !password || !confirmPassword || !walletAddress) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            if (!terms) {
+                alert('You must agree to the terms and conditions');
+                return;
+            }
+            
+            // Simulate registration - in a real app, this would be an API call
+            console.log('Registration data:', { 
+                fullName, 
+                email, 
+                phone, 
+                password, 
+                walletAddress,
+                terms 
+            });
+            
+            // Redirect to login page after successful registration
+            alert('Registration successful! Please login to continue.');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

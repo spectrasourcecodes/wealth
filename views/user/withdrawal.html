@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USDT Investment Platform - Withdraw Funds</title>
+    <style>
+        /* Reusing styles from dashboard with additions */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #1a237e;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .user-menu {
+            position: relative;
+        }
+        
+        .user-btn {
+            background: none;
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #303f9f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 200px;
+            display: none;
+            z-index: 100;
+        }
+        
+        .dropdown-menu.active {
+            display: block;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .dropdown-menu a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        /* Withdrawal Page Styles */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+            color: #1a237e;
+        }
+        
+        .back-btn {
+            color: #1a237e;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Balance Card */
+        .balance-card {
+            background: linear-gradient(135deg, #1a237e, #303f9f);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .balance-title {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        
+        .balance-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .balance-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Withdrawal Form */
+        .withdrawal-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #1a237e;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .amount-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        @media (min-width: 480px) {
+            .amount-options {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .amount-option {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .amount-option:hover, .amount-option.selected {
+            border-color: #1a237e;
+            background-color: #e8eaf6;
+        }
+        
+        .wallet-info {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        
+        .wallet-info h4 {
+            margin-bottom: 10px;
+            color: #1a237e;
+        }
+        
+        .wallet-address {
+            word-break: break-all;
+            font-family: monospace;
+            background-color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        
+        .fee-info {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 25px;
+        }
+        
+        .btn:hover {
+            background-color: #303f9f;
+        }
+        
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        /* Recent Withdrawals */
+        .recent-withdrawals {
+            margin-top: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            color: #1a237e;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .withdrawals-list {
+            list-style: none;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        .withdrawal-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .withdrawal-item:last-child {
+            border-bottom: none;
+        }
+        
+        .withdrawal-amount {
+            font-weight: bold;
+            color: #1a237e;
+        }
+        
+        .withdrawal-details {
+            text-align: right;
+        }
+        
+        .withdrawal-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background-color: #fff3e0;
+            color: #ff6d00;
+        }
+        
+        .status-completed {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-failed {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .withdrawal-date {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 3px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #1a237e;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">USDT Investment</div>
+            
+            <div class="user-menu">
+                <button class="user-btn">
+                    <div class="user-avatar">JD</div>
+                    <span>John Doe</span> ▼
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="profile.html">Profile</a>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="invest.html">Invest</a>
+                    <a href="history.html">History</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Withdrawal Content -->
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">Withdraw Funds</h1>
+            <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+        </div>
+        
+        <!-- Balance Card -->
+        <div class="balance-card">
+            <div class="balance-title">Available Balance</div>
+            <div class="balance-amount">$5,250.75</div>
+            <div class="balance-details">
+                <span>Total Earned: $2,250.75</span>
+                <span>Active Investments: $3,000.00</span>
+            </div>
+        </div>
+        
+        <!-- Withdrawal Form -->
+        <form class="withdrawal-form" id="withdrawalForm">
+            <div class="form-group">
+                <label for="amount">Withdrawal Amount (USDT)</label>
+                <input type="number" id="amount" name="amount" min="50" step="0.01" required placeholder="Enter amount">
+                
+                <div class="amount-options">
+                    <div class="amount-option" onclick="setAmount(50)">$50</div>
+                    <div class="amount-option" onclick="setAmount(100)">$100</div>
+                    <div class="amount-option" onclick="setAmount(500)">$500</div>
+                    <div class="amount-option" onclick="setAmount(1000)">$1,000</div>
+                </div>
+                
+                <div class="fee-info">Withdrawal fee: 1% (min $5)</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="wallet">Withdrawal Wallet</label>
+                <select id="wallet" name="wallet" required>
+                    <option value="">Select wallet</option>
+                    <option value="trc20" selected>USDT (TRC20) - Primary</option>
+                    <option value="erc20">USDT (ERC20)</option>
+                    <option value="bep20">USDT (BEP20)</option>
+                </select>
+            </div>
+            
+            <div class="wallet-info">
+                <h4>Withdrawal Address</h4>
+                <div class="wallet-address" id="walletAddress">TXYZ1234567890abcdefghijklmnopqrstuvw</div>
+                <p class="fee-info">Estimated arrival: 1-3 network confirmations</p>
+            </div>
+            
+            <button type="submit" class="btn" id="withdrawBtn">Request Withdrawal</button>
+        </form>
+        
+        <!-- Recent Withdrawals -->
+        <div class="recent-withdrawals">
+            <h3 class="section-title">Recent Withdrawals</h3>
+            <ul class="withdrawals-list">
+                <li class="withdrawal-item">
+                    <div class="withdrawal-amount">$500.00</div>
+                    <div class="withdrawal-details">
+                        <span class="withdrawal-status status-completed">Completed</span>
+                        <div class="withdrawal-date">Jun 13, 2023 4:15 PM</div>
+                    </div>
+                </li>
+                <li class="withdrawal-item">
+                    <div class="withdrawal-amount">$200.00</div>
+                    <div class="withdrawal-details">
+                        <span class="withdrawal-status status-completed">Completed</span>
+                        <div class="withdrawal-date">Jun 5, 2023 3:30 PM</div>
+                    </div>
+                </li>
+                <li class="withdrawal-item">
+                    <div class="withdrawal-amount">$100.00</div>
+                    <div class="withdrawal-details">
+                        <span class="withdrawal-status status-completed">Completed</span>
+                        <div class="withdrawal-date">May 28, 2023 11:45 AM</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 USDT Investment Platform. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Withdrawal Confirmation Modal -->
+    <div id="confirmationModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background-color: white; padding: 25px; border-radius: 8px; max-width: 400px; width: 90%;">
+            <h3 style="margin-bottom: 20px; color: #1a237e; text-align: center;">Confirm Withdrawal</h3>
+            
+            <div style="margin-bottom: 20px; text-align: center;">
+                <div style="font-size: 1.2rem; margin-bottom: 10px;">You are about to withdraw:</div>
+                <div style="font-size: 1.8rem; font-weight: bold; color: #1a237e; margin-bottom: 5px;" id="confirmAmount">$0.00</div>
+                <div style="font-size: 0.9rem; color: #666;">Fee: <span id="confirmFee">$0.00</span> (1%)</div>
+                <div style="font-size: 0.9rem; color: #666; margin-top: 15px;">To: <span id="confirmWallet">USDT (TRC20)</span></div>
+                <div style="font-family: monospace; word-break: break-all; background-color: #f5f5f5; padding: 10px; border-radius: 4px; margin-top: 5px;" id="confirmAddress"></div>
+            </div>
+            
+            <div style="display: flex; gap: 10px;">
+                <button style="flex: 1; padding: 12px; border: 1px solid #1a237e; border-radius: 4px; background: transparent; color: #1a237e; cursor: pointer;" onclick="hideConfirmationModal()">Cancel</button>
+                <button style="flex: 1; padding: 12px; border: none; border-radius: 4px; background-color: #1a237e; color: white; cursor: pointer;" onclick="submitWithdrawal()">Confirm</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // User dropdown menu
+        const userBtn = document.querySelector('.user-btn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        
+        userBtn.addEventListener('click', function() {
+            dropdownMenu.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.user-menu')) {
+                dropdownMenu.classList.remove('active');
+            }
+        });
+        
+        // Withdrawal form functionality
+        function setAmount(amount) {
+            document.getElementById('amount').value = amount;
+            
+            // Highlight selected amount
+            document.querySelectorAll('.amount-option').forEach(option => {
+                option.classList.remove('selected');
+                if (parseInt(option.textContent.replace('$', '')) === amount) {
+                    option.classList.add('selected');
+                }
+            });
+        }
+        
+        // Update wallet address when network changes
+        document.getElementById('wallet').addEventListener('change', function() {
+            const walletType = this.value;
+            let address = '';
+            
+            // In a real app, this would fetch from user's saved wallets
+            switch(walletType) {
+                case 'trc20':
+                    address = 'TXYZ1234567890abcdefghijklmnopqrstuvw';
+                    break;
+                case 'erc20':
+                    address = '0xAbCdEf1234567890abcdefghijklmnopqrstuvw';
+                    break;
+                case 'bep20':
+                    address = '0x1a2b3c4567890abcdefghijklmnopqrstuvwxyz';
+                    break;
+            }
+            
+            document.getElementById('walletAddress').textContent = address;
+        });
+        
+        // Show confirmation modal
+        function showConfirmationModal() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const walletType = document.getElementById('wallet').value;
+            const walletName = document.getElementById('wallet').options[document.getElementById('wallet').selectedIndex].text;
+            const walletAddress = document.getElementById('walletAddress').textContent;
+            
+            if (!amount || isNaN(amount) || !walletType) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (amount < 50) {
+                alert('Minimum withdrawal amount is $50');
+                return;
+            }
+            
+            const fee = Math.max(amount * 0.01, 5); // 1% fee with $5 minimum
+            
+            document.getElementById('confirmAmount').textContent = '$' + amount.toFixed(2);
+            document.getElementById('confirmFee').textContent = '$' + fee.toFixed(2);
+            document.getElementById('confirmWallet').textContent = walletName;
+            document.getElementById('confirmAddress').textContent = walletAddress;
+            
+            document.getElementById('confirmationModal').style.display = 'flex';
+        }
+        
+        // Hide confirmation modal
+        function hideConfirmationModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+        }
+        
+        // Submit withdrawal
+        function submitWithdrawal() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const walletType = document.getElementById('wallet').value;
+            const walletAddress = document.getElementById('walletAddress').textContent;
+            
+            // In a real app, this would be an API call
+            console.log('Withdrawal submission:', { 
+                amount, 
+                walletType, 
+                walletAddress 
+            });
+            
+            hideConfirmationModal();
+            
+            // Show success message
+            alert('Withdrawal request submitted successfully! It will be processed within 24 hours.');
+            
+            // In a real app, you might redirect or refresh the withdrawal history
+            window.location.href = 'history.html';
+        }
+        
+        // Form submission
+        document.getElementById('withdrawalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showConfirmationModal();
+        });
+    </script>
+</body>
+</html>

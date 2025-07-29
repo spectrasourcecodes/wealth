@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USDT Investment Platform - History</title>
+    <style>
+        /* Reusing styles from dashboard with additions */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #1a237e;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .user-menu {
+            position: relative;
+        }
+        
+        .user-btn {
+            background: none;
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #303f9f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 200px;
+            display: none;
+            z-index: 100;
+        }
+        
+        .dropdown-menu.active {
+            display: block;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .dropdown-menu a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        /* History Page Styles */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+            color: #1a237e;
+        }
+        
+        .back-btn {
+            color: #1a237e;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* History Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab.active {
+            border-bottom: 2px solid #1a237e;
+            color: #1a237e;
+            font-weight: bold;
+        }
+        
+        /* History Table */
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .history-table th, .history-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .history-table th {
+            background-color: #1a237e;
+            color: white;
+            font-weight: normal;
+        }
+        
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .history-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background-color: #fff3e0;
+            color: #ff6d00;
+        }
+        
+        .status-completed {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-failed {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 5px;
+        }
+        
+        .page-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .page-btn.active {
+            background-color: #1a237e;
+            color: white;
+            border-color: #1a237e;
+        }
+        
+        .page-btn:hover:not(.active) {
+            background-color: #f5f5f5;
+        }
+        
+        /* No Data Message */
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #1a237e;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 30px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .history-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">USDT Investment</div>
+            
+            <div class="user-menu">
+                <button class="user-btn">
+                    <div class="user-avatar">JD</div>
+                    <span>John Doe</span> ▼
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="profile.html">Profile</a>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="invest.html">Invest</a>
+                    <a href="history.html">History</a>
+                    <a href="logout.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- History Content -->
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">Investment History</h1>
+            <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+        </div>
+        
+        <!-- History Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('all')">All Transactions</div>
+            <div class="tab" onclick="showTab('investments')">Investments</div>
+            <div class="tab" onclick="showTab('profits')">Profits</div>
+            <div class="tab" onclick="showTab('withdrawals')">Withdrawals</div>
+        </div>
+        
+        <!-- History Table -->
+        <div id="allTab" class="tab-content">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Plan</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2023-06-15 10:45 AM</td>
+                        <td>Profit</td>
+                        <td>+$25.50</td>
+                        <td>Basic Plan</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>2023-06-14 2:30 PM</td>
+                        <td>Investment</td>
+                        <td>-$1,000.00</td>
+                        <td>Basic Plan</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>2023-06-14 10:45 AM</td>
+                        <td>Profit</td>
+                        <td>+$25.50</td>
+                        <td>Basic Plan</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>2023-06-13 4:15 PM</td>
+                        <td>Withdrawal</td>
+                        <td>-$500.00</td>
+                        <td>N/A</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>2023-06-12 11:20 AM</td>
+                        <td>Investment</td>
+                        <td>-$2,000.00</td>
+                        <td>Premium Plan</td>
+                        <td><span class="status status-pending">Pending</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="pagination">
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">Next →</button>
+            </div>
+        </div>
+        
+        <div id="investmentsTab" class="tab-content" style="display: none;">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Plan</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2023-06-14 2:30 PM</td>
+                        <td>-$1,000.00</td>
+                        <td>Basic Plan</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>2023-06-12 11:20 AM</td>
+                        <td>-$2,000.00</td>
+                        <td>Premium Plan</td>
+                        <td><span class="status status-pending">Pending</span></td>
+                    </tr>
+                    <tr>
+                        <td>2023-06-01 9:15 AM</td>
+                        <td>-$500.00</td>
+                        <td>Basic Plan</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="pagination">
+                <button class="page-btn active">1</button>
+            </div>
+        </div>
+        
+        <div id="profitsTab" class="tab-content" style="display: none;">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Plan</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2023-06-15 10:45 AM</td>
+                        <td>+$25.50</td>
+                        <td>Basic Plan</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>2023-06-14 10:45 AM</td>
+                        <td>+$25.50</td>
+                        <td>Basic Plan</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>2023-06-13 10:45 AM</td>
+                        <td>+$25.50</td>
+                        <td>Basic Plan</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="pagination">
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">Next →</button>
+            </div>
+        </div>
+        
+        <div id="withdrawalsTab" class="tab-content" style="display: none;">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Wallet</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2023-06-13 4:15 PM</td>
+                        <td>-$500.00</td>
+                        <td>TRC20</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>2023-06-05 3:30 PM</td>
+                        <td>-$200.00</td>
+                        <td>TRC20</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="pagination">
+                <button class="page-btn active">1</button>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 USDT Investment Platform. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // User dropdown menu
+        const userBtn = document.querySelector('.user-btn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        
+        userBtn.addEventListener('click', function() {
+            dropdownMenu.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.user-menu')) {
+                dropdownMenu.classList.remove('active');
+            }
+        });
+        
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(`${tabName}Tab`).style.display = 'block';
+            
+            // Add active class to selected tab
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Pagination button functionality
+        document.querySelectorAll('.page-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (!this.classList.contains('active')) {
+                    document.querySelectorAll('.page-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    // In a real app, this would load the corresponding page data
+                }
+            });
+        });
+    </script>
+</body>
+</html>

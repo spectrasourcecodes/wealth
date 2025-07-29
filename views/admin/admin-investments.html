@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USDT Investment Platform - Admin Investments</title>
+    <style>
+        /* Reusing styles from admin-dashboard with additions */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Admin Header */
+        .admin-header {
+            background-color: #d32f2f;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .admin-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .admin-user {
+            position: relative;
+        }
+        
+        .admin-user-btn {
+            background: none;
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .admin-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #b71c1c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .admin-dropdown {
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 200px;
+            display: none;
+            z-index: 100;
+        }
+        
+        .admin-dropdown.active {
+            display: block;
+        }
+        
+        .admin-dropdown a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-dropdown a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        /* Admin Layout */
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: calc(100vh - 60px);
+        }
+        
+        .admin-sidebar {
+            background-color: white;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .menu-title {
+            padding: 10px 20px;
+            color: #666;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .menu-item:hover, .menu-item.active {
+            background-color: #ffebee;
+            border-left: 3px solid #d32f2f;
+        }
+        
+        .menu-item a {
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .menu-icon {
+            font-size: 1.1rem;
+        }
+        
+        /* Admin Content */
+        .admin-content {
+            padding: 20px;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .content-title {
+            font-size: 1.5rem;
+            color: #d32f2f;
+        }
+        
+        .content-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: #d32f2f;
+            color: white;
+            border: 1px solid #d32f2f;
+        }
+        
+        .btn-primary:hover {
+            background-color: #b71c1c;
+        }
+        
+        .btn-outline {
+            border: 1px solid #d32f2f;
+            color: #d32f2f;
+            background: transparent;
+        }
+        
+        .btn-outline:hover {
+            background-color: #ffebee;
+        }
+        
+        /* Investments Table */
+        .investments-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .investments-table th, .investments-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .investments-table th {
+            background-color: #d32f2f;
+            color: white;
+            font-weight: normal;
+        }
+        
+        .investments-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .investments-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e8eaf6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a237e;
+        }
+        
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-active {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-pending {
+            background-color: #fff3e0;
+            color: #ff6d00;
+        }
+        
+        .status-completed {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        
+        .action-btn.view {
+            background-color: #e8eaf6;
+            color: #1a237e;
+        }
+        
+        .action-btn.edit {
+            background-color: #fff3e0;
+            color: #ff6d00;
+        }
+        
+        .action-btn.delete {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+        
+        /* Search and Filter */
+        .search-filter {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        @media (min-width: 768px) {
+            .search-filter {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+        }
+        
+        .search-group {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px 10px 10px 35px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .pagination-info {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .pagination-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .page-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .page-btn.active {
+            background-color: #d32f2f;
+            color: white;
+            border-color: #d32f2f;
+        }
+        
+        .page-btn:hover:not(.active) {
+            background-color: #f5f5f5;
+        }
+        
+        /* Footer */
+        .admin-footer {
+            background-color: #d32f2f;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 20px;
+        }
+        
+        /* Mobile Menu Toggle */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-sidebar {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 250px;
+                height: calc(100vh - 60px);
+                transition: left 0.3s;
+                z-index: 100;
+            }
+            
+            .admin-sidebar.active {
+                left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .admin-nav a:not(.mobile-menu-btn) {
+                display: none;
+            }
+            
+            .investments-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="container header-container">
+            <div class="admin-logo">USDT Admin</div>
+            
+            <nav class="admin-nav">
+                <a href="#" class="mobile-menu-btn" id="adminMenuBtn">☰</a>
+                <a href="#">Notifications</a>
+                <a href="#">Messages</a>
+                <div class="admin-user">
+                    <button class="admin-user-btn">
+                        <div class="admin-avatar">AD</div>
+                        <span>Admin</span> ▼
+                    </button>
+                    <div class="admin-dropdown" id="adminDropdown">
+                        <a href="admin-dashboard.html">Dashboard</a>
+                        <a href="admin-profile.html">Profile</a>
+                        <a href="admin-logout.html">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Admin Layout -->
+    <div class="admin-layout">
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <ul class="sidebar-menu">
+                <li class="menu-title">Main</li>
+                <li class="menu-item">
+                    <a href="admin-dashboard.html">
+                        <span class="menu-icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                
+                <li class="menu-title">Management</li>
+                <li class="menu-item">
+                    <a href="admin-users.html">
+                        <span class="menu-icon">👥</span>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="menu-item active">
+                    <a href="admin-investments.html">
+                        <span class="menu-icon">💰</span>
+                        <span>Investments</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <span class="menu-icon">📈</span>
+                        <span>Plans</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <span class="menu-icon">💸</span>
+                        <span>Withdrawals</span>
+                    </a>
+                </li>
+                
+                <li class="menu-title">Settings</li>
+                <li class="menu-item">
+                    <a href="#">
+                        <span class="menu-icon">⚙️</span>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="admin-logout.html">
+                        <span class="menu-icon">🔒</span>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- Admin Content -->
+        <main class="admin-content">
+            <div class="content-header">
+                <h1 class="content-title">Investment Management</h1>
+                <div class="content-actions">
+                    <button class="btn btn-outline">Export</button>
+                    <button class="btn btn-primary">Add Investment</button>
+                </div>
+            </div>
+            
+            <!-- Search and Filter -->
+            <div class="search-filter">
+                <div class="search-group">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search investments...">
+                </div>
+                <select class="filter-select">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="pending">Pending</option>
+                    <option value="completed">Completed</option>
+                </select>
+                <select class="filter-select">
+                    <option value="">All Plans</option>
+                    <option value="basic">Basic</option>
+                    <option value="premium">Premium</option>
+                    <option value="vip">VIP</option>
+                </select>
+            </div>
+            
+            <!-- Investments Table -->
+            <table class="investments-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Plan</th>
+                        <th>Amount</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar">JD</div>
+                                <span>John Doe</span>
+                            </div>
+                        </td>
+                        <td>Basic Plan</td>
+                        <td>$1,000.00</td>
+                        <td>2023-06-14</td>
+                        <td>2023-07-14</td>
+                        <td><span class="status status-active">Active</span></td>
+                        <td>
+                            <button class="action-btn view">View</button>
+                            <button class="action-btn edit">Edit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar">JS</div>
+                                <span>Jane Smith</span>
+                            </div>
+                        </td>
+                        <td>Premium Plan</td>
+                        <td>$2,500.00</td>
+                        <td>2023-06-10</td>
+                        <td>2023-07-10</td>
+                        <td><span class="status status-active">Active</span></td>
+                        <td>
+                            <button class="action-btn view">View</button>
+                            <button class="action-btn edit">Edit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar">MB</div>
+                                <span>Maria Brown</span>
+                            </div>
+                        </td>
+                        <td>VIP Plan</td>
+                        <td>$5,000.00</td>
+                        <td>2023-06-01</td>
+                        <td>2023-07-01</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                        <td>
+                            <button class="action-btn view">View</button>
+                            <button class="action-btn edit">Edit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar">DW</div>
+                                <span>David Wilson</span>
+                            </div>
+                        </td>
+                        <td>Basic Plan</td>
+                        <td>$500.00</td>
+                        <td>2023-06-18</td>
+                        <td>2023-07-18</td>
+                        <td><span class="status status-pending">Pending</span></td>
+                        <td>
+                            <button class="action-btn view">View</button>
+                            <button class="action-btn edit">Edit</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar">RJ</div>
+                                <span>Robert Johnson</span>
+                            </div>
+                        </td>
+                        <td>Premium Plan</td>
+                        <td>$1,500.00</td>
+                        <td>2023-06-05</td>
+                        <td>2023-07-05</td>
+                        <td><span class="status status-active">Active</span></td>
+                        <td>
+                            <button class="action-btn view">View</button>
+                            <button class="action-btn edit">Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+                <div class="pagination-info">
+                    Showing 1 to 5 of 18 entries
+                </div>
+                <div class="pagination-buttons">
+                    <button class="page-btn">Previous</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">4</button>
+                    <button class="page-btn">Next</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Admin Footer -->
+    <footer class="admin-footer">
+        <div class="container">
+            <p>&copy; 2023 USDT Investment Platform. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Admin dropdown menu
+        const adminUserBtn = document.querySelector('.admin-user-btn');
+        const adminDropdown = document.getElementById('adminDropdown');
+        
+        adminUserBtn.addEventListener('click', function() {
+            adminDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.admin-user')) {
+                adminDropdown.classList.remove('active');
+            }
+        });
+        
+        // Mobile menu toggle
+        const adminMenuBtn = document.getElementById('adminMenuBtn');
+        const adminSidebar = document.getElementById('adminSidebar');
+        
+        adminMenuBtn.addEventListener('click', function() {
+            adminSidebar.classList.toggle('active');
+        });
+        
+        // Action buttons functionality
+        document.querySelectorAll('.action-btn.view').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // In a real app, this would show investment details
+                console.log('View investment clicked');
+            });
+        });
+        
+        document.querySelectorAll('.action-btn.edit').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // In a real app, this would open an edit modal
+                console.log('Edit investment clicked');
+            });
+        });
+        
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('.investments-table tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+        
+        // Filter functionality
+        const statusFilter = document.querySelectorAll('.filter-select')[0];
+        const planFilter = document.querySelectorAll('.filter-select')[1];
+        
+        function applyFilters() {
+            const statusValue = statusFilter.value;
+            const planValue = planFilter.value;
+            const rows = document.querySelectorAll('.investments-table tbody tr');
+            
+            rows.forEach(row => {
+                const status = row.querySelector('.status').textContent.toLowerCase();
+                const plan = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                
+                const statusMatch = !statusValue || status.includes(statusValue);
+                const planMatch = !planValue || plan.includes(planValue);
+                
+                if (statusMatch && planMatch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        statusFilter.addEventListener('change', applyFilters);
+        planFilter.addEventListener('change', applyFilters);
+    </script>
+</body>
+</html>

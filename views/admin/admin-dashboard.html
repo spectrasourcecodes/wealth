@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USDT Investment Platform - Admin Dashboard</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Admin Header */
+        .admin-header {
+            background-color: #d32f2f;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .admin-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .admin-user {
+            position: relative;
+        }
+        
+        .admin-user-btn {
+            background: none;
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .admin-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #b71c1c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .admin-dropdown {
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 200px;
+            display: none;
+            z-index: 100;
+        }
+        
+        .admin-dropdown.active {
+            display: block;
+        }
+        
+        .admin-dropdown a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-dropdown a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        /* Admin Sidebar */
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: calc(100vh - 60px);
+        }
+        
+        .admin-sidebar {
+            background-color: white;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .menu-title {
+            padding: 10px 20px;
+            color: #666;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .menu-item:hover, .menu-item.active {
+            background-color: #ffebee;
+            border-left: 3px solid #d32f2f;
+        }
+        
+        .menu-item a {
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .menu-icon {
+            font-size: 1.1rem;
+        }
+        
+        /* Admin Content */
+        .admin-content {
+            padding: 20px;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .content-title {
+            font-size: 1.5rem;
+            color: #d32f2f;
+        }
+        
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .stat-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .stat-title {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        
+        .stat-change {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .stat-change.up {
+            color: #2e7d32;
+        }
+        
+        .stat-change.down {
+            color: #c62828;
+        }
+        
+        /* Recent Activity */
+        .activity-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-top: 20px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            color: #d32f2f;
+        }
+        
+        .see-all {
+            color: #d32f2f;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .activity-list {
+            list-style: none;
+        }
+        
+        .activity-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .activity-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .activity-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ffebee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d32f2f;
+        }
+        
+        .activity-details h4 {
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+        }
+        
+        .activity-details p {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .activity-amount {
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        
+        /* Footer */
+        .admin-footer {
+            background-color: #d32f2f;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 20px;
+        }
+        
+        /* Mobile Menu Toggle */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-sidebar {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 250px;
+                height: calc(100vh - 60px);
+                transition: left 0.3s;
+                z-index: 100;
+            }
+            
+            .admin-sidebar.active {
+                left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .admin-nav a:not(.mobile-menu-btn) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="container header-container">
+            <div class="admin-logo">USDT Admin</div>
+            
+            <nav class="admin-nav">
+                <a href="#" class="mobile-menu-btn" id="adminMenuBtn">☰</a>
+                <a href="#">Notifications</a>
+                <a href="#">Messages</a>
+                <div class="admin-user">
+                    <button class="admin-user-btn">
+                        <div class="admin-avatar">AD</div>
+                        <span>Admin</span> ▼
+                    </button>
+                    <div class="admin-dropdown" id="adminDropdown">
+                        <a href="admin-dashboard.html">Dashboard</a>
+                        <a href="admin-profile.html">Profile</a>
+                        <a href="admin-logout.html">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Admin Layout -->
+    <div class="admin-layout">
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <ul class="sidebar-menu">
+                <li class="menu-title">Main</li>
+                <li class="menu-item active">
+                    <a href="admin-dashboard.html">
+                        <span class="menu-icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                
+                <li class="menu-title">Management</li>
+                <li class="menu-item">
+                    <a href="admin-users.html">
+                        <span class="menu-icon">👥</span>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="admin-investments.html">
+                        <span class="menu-icon">💰</span>
+                        <span>Investments</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <span class="menu-icon">📈</span>
+                        <span>Plans</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <span class="menu-icon">💸</span>
+                        <span>Withdrawals</span>
+                    </a>
+                </li>
+                
+                <li class="menu-title">Settings</li>
+                <li class="menu-item">
+                    <a href="#">
+                        <span class="menu-icon">⚙️</span>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="admin-logout.html">
+                        <span class="menu-icon">🔒</span>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- Admin Content -->
+        <main class="admin-content">
+            <div class="content-header">
+                <h1 class="content-title">Dashboard Overview</h1>
+                <div>
+                    <span>Last updated: Today, 10:45 AM</span>
+                </div>
+            </div>
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Total Users</div>
+                    <div class="stat-value">5,248</div>
+                    <div class="stat-change up">↑ 12% from last week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Active Investments</div>
+                    <div class="stat-value">3,876</div>
+                    <div class="stat-change up">↑ 8% from last week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Total Deposits</div>
+                    <div class="stat-value">$10.2M</div>
+                    <div class="stat-change up">↑ 15% from last week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Pending Withdrawals</div>
+                    <div class="stat-value">42</div>
+                    <div class="stat-change down">↓ 5% from last week</div>
+                </div>
+            </div>
+            
+            <!-- Recent Activity -->
+            <div class="activity-card">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Activity</h3>
+                    <a href="#" class="see-all">See All</a>
+                </div>
+                <ul class="activity-list">
+                    <li class="activity-item">
+                        <div class="activity-info">
+                            <div class="activity-icon">👤</div>
+                            <div class="activity-details">
+                                <h4>New User Registration</h4>
+                                <p>John Doe • 10 minutes ago</p>
+                            </div>
+                        </div>
+                        <div class="activity-amount">View</div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-info">
+                            <div class="activity-icon">💰</div>
+                            <div class="activity-details">
+                                <h4>New Investment</h4>
+                                <p>Basic Plan • $1,000 • 30 minutes ago</p>
+                            </div>
+                        </div>
+                        <div class="activity-amount">Approve</div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-info">
+                            <div class="activity-icon">💸</div>
+                            <div class="activity-details">
+                                <h4>Withdrawal Request</h4>
+                                <p>Jane Smith • $500 • 2 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="activity-amount">Process</div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-info">
+                            <div class="activity-icon">📧</div>
+                            <div class="activity-details">
+                                <h4>Support Ticket</h4>
+                                <p>#TKT-7890 • 3 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="activity-amount">Respond</div>
+                    </li>
+                </ul>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Admin Footer -->
+    <footer class="admin-footer">
+        <div class="container">
+            <p>&copy; 2023 USDT Investment Platform. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Admin dropdown menu
+        const adminUserBtn = document.querySelector('.admin-user-btn');
+        const adminDropdown = document.getElementById('adminDropdown');
+        
+        adminUserBtn.addEventListener('click', function() {
+            adminDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.admin-user')) {
+                adminDropdown.classList.remove('active');
+            }
+        });
+        
+        // Mobile menu toggle
+        const adminMenuBtn = document.getElementById('adminMenuBtn');
+        const adminSidebar = document.getElementById('adminSidebar');
+        
+        adminMenuBtn.addEventListener('click', function() {
+            adminSidebar.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

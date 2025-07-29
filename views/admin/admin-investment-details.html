@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USDT Investment Platform - Investment Details</title>
+    <style>
+        /* Reusing styles from admin-dashboard with additions */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Admin Header */
+        .admin-header {
+            background-color: #d32f2f;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .admin-nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .admin-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .admin-user {
+            position: relative;
+        }
+        
+        .admin-user-btn {
+            background: none;
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .admin-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #b71c1c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .admin-dropdown {
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 200px;
+            display: none;
+            z-index: 100;
+        }
+        
+        .admin-dropdown.active {
+            display: block;
+        }
+        
+        .admin-dropdown a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-dropdown a:hover {
+            background-color: #f5f5f5;
+        }
+        
+        /* Admin Layout */
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: calc(100vh - 60px);
+        }
+        
+        .admin-sidebar {
+            background-color: white;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .menu-title {
+            padding: 10px 20px;
+            color: #666;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .menu-item:hover, .menu-item.active {
+            background-color: #ffebee;
+            border-left: 3px solid #d32f2f;
+        }
+        
+        .menu-item a {
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .menu-icon {
+            font-size: 1.1rem;
+        }
+        
+        /* Admin Content */
+        .admin-content {
+            padding: 20px;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .content-title {
+            font-size: 1.5rem;
+            color: #d32f2f;
+        }
+        
+        .back-btn {
+            color: #d32f2f;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Investment Detail Card */
+        .investment-detail-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .investment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .investment-title {
+            font-size: 1.3rem;
+            color: #333;
+        }
+        
+        .investment-id {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .investment-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-active {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-pending {
+            background-color: #fff3e0;
+            color: #ff6d00;
+        }
+        
+        .status-completed {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .status-cancelled {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        /* Investment Info Grid */
+        .investment-info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .investment-info {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .info-section {
+            margin-bottom: 15px;
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .info-value.amount {
+            color: #d32f2f;
+            font-size: 1.3rem;
+        }
+        
+        /* User Info */
+        .user-info-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .user-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e8eaf6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #1a237e;
+        }
+        
+        .user-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .user-email {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Timeline */
+        .timeline-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .timeline-title {
+            font-size: 1.2rem;
+            color: #d32f2f;
+            margin-bottom: 15px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 20px;
+            border-left: 2px solid #eee;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -7px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #d32f2f;
+        }
+        
+        .timeline-date {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-event {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-details {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: #d32f2f;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #b71c1c;
+        }
+        
+        .btn-outline {
+            border: 1px solid #d32f2f;
+            color: #d32f2f;
+            background: transparent;
+        }
+        
+        .btn-outline:hover {
+            background-color: #ffebee;
+        }
+        
+        .btn-success {
+            background-color: #2e7d32;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #1b5e20;
+        }
+        
+        .btn-warning {
+            background-color: #ff6d00;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e65100;
+        }
+        
+        /* Footer */
+        .admin-footer {
+            background-color: #d32f2f;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 20px;
+        }
+        
+        /* Mobile Menu Toggle */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-sidebar {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 250px;
+                height: calc(100vh - 60px);
+                transition: left 0.3s;
+                z-index: 100;
+            }
+            
+            .admin-sidebar.active {
+                left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .admin-nav a:not(.mobile-menu-btn) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="container header-container">
+            <div class="admin-logo">USDT Admin</div>
+            
+            <nav class="admin-nav">
+                <a href="#" class="mobile-menu-btn" id="adminMenuBtn">☰</a>
+                <a href="#">Notifications</a>
+                <a href="#">Messages</a>
+                <div class="admin-user">
+                    <button class="admin-user-btn">
+                        <div class="admin-avatar">AD</div>
+                        <span>Admin</span> ▼
+                    </button>
+                    <div class="admin-dropdown" id="adminDropdown">
+                        <a href="admin-dashboard.html">Dashboard</a>
+                        <a href="admin-profile.html">Profile</a>
+                        <a href="admin-logout.html">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Admin Layout -->
+    <div class="admin-layout">
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <ul class="sidebar-menu">
+                <li class="menu-title">Main</li>
+                <li class="menu-item">
+                    <a href="admin-dashboard.html">
+                        <span class="menu-icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                
+                <li class="menu-title">Management</li>
+                <li class="menu-item">
+                    <a href="admin-users.html">
+                        <span class="menu-icon">👥</span>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="menu-item active">
+                    <a href="admin-investments.html">
+                        <span class="menu-icon">💰</span>
+                        <span>Investments</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <span class="menu-icon">📈</span>
+                        <span>Plans</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <span class="menu-icon">💸</span>
+                        <span>Withdrawals</span>
+                    </a>
+                </li>
+                
+                <li class="menu-title">Settings</li>
+                <li class="menu-item">
+                    <a href="#">
+                        <span class="menu-icon">⚙️</span>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="admin-logout.html">
+                        <span class="menu-icon">🔒</span>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- Admin Content -->
+        <main class="admin-content">
+            <div class="content-header">
+                <h1 class="content-title">Investment Details</h1>
+                <a href="admin-investments.html" class="back-btn">← Back to Investments</a>
+            </div>
+            
+            <!-- Investment Detail Card -->
+            <div class="investment-detail-card">
+                <div class="investment-header">
+                    <div>
+                        <h2 class="investment-title">Basic Plan Investment</h2>
+                        <div class="investment-id">ID: INV-789456</div>
+                    </div>
+                    <span class="investment-status status-active">Active</span>
+                </div>
+                
+                <div class="investment-info">
+                    <div>
+                        <div class="info-section">
+                            <div class="info-label">Investment Amount</div>
+                            <div class="info-value amount">$1,000.00</div>
+                        </div>
+                        <div class="info-section">
+                            <div class="info-label">Daily Profit</div>
+                            <div class="info-value">$50.00 (5%)</div>
+                        </div>
+                        <div class="info-section">
+                            <div class="info-label">Total Profit Earned</div>
+                            <div class="info-value">$350.00</div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="info-section">
+                            <div class="info-label">Start Date</div>
+                            <div class="info-value">June 14, 2023</div>
+                        </div>
+                        <div class="info-section">
+                            <div class="info-label">End Date</div>
+                            <div class="info-value">July 14, 2023</div>
+                        </div>
+                        <div class="info-section">
+                            <div class="info-label">Payment Method</div>
+                            <div class="info-value">USDT (TRC20)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-success">Approve</button>
+                    <button class="btn btn-warning">Pause</button>
+                    <button class="btn btn-outline">Edit</button>
+                    <button class="btn btn-primary">Pay Profit</button>
+                </div>
+            </div>
+            
+            <!-- User Info Card -->
+            <div class="user-info-card">
+                <div class="user-header">
+                    <div class="user-avatar">JD</div>
+                    <div>
+                        <div class="user-name">John Doe</div>
+                        <div class="user-email">john.doe@example.com</div>
+                    </div>
+                </div>
+                
+                <div class="investment-info">
+                    <div>
+                        <div class="info-section">
+                            <div class="info-label">User ID</div>
+                            <div class="info-value">USR-123456</div>
+                        </div>
+                        <div class="info-section">
+                            <div class="info-label">Account Status</div>
+                            <div class="info-value">Verified</div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="info-section">
+                            <div class="info-label">Total Investments</div>
+                            <div class="info-value">3</div>
+                        </div>
+                        <div class="info-section">
+                            <div class="info-label">Total Invested</div>
+                            <div class="info-value">$3,500.00</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-outline" onclick="viewUserProfile()">View User Profile</button>
+                    <button class="btn btn-outline">Contact User</button>
+                </div>
+            </div>
+            
+            <!-- Timeline Card -->
+            <div class="timeline-card">
+                <h3 class="timeline-title">Investment Timeline</h3>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">Today, 10:45 AM</div>
+                    <div class="timeline-event">Daily Profit Paid</div>
+                    <div class="timeline-details">$50.00 added to user's balance</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">June 18, 2023, 2:30 PM</div>
+                    <div class="timeline-event">Investment Approved</div>
+                    <div class="timeline-details">By Admin User</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">June 14, 2023, 10:15 AM</div>
+                    <div class="timeline-event">Investment Created</div>
+                    <div class="timeline-details">Initial payment received</div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Admin Footer -->
+    <footer class="admin-footer">
+        <div class="container">
+            <p>&copy; 2023 USDT Investment Platform. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Admin dropdown menu
+        const adminUserBtn = document.querySelector('.admin-user-btn');
+        const adminDropdown = document.getElementById('adminDropdown');
+        
+        adminUserBtn.addEventListener('click', function() {
+            adminDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.admin-user')) {
+                adminDropdown.classList.remove('active');
+            }
+        });
+        
+        // Mobile menu toggle
+        const adminMenuBtn = document.getElementById('adminMenuBtn');
+        const adminSidebar = document.getElementById('adminSidebar');
+        
+        adminMenuBtn.addEventListener('click', function() {
+            adminSidebar.classList.toggle('active');
+        });
+        
+        // View user profile function
+        function viewUserProfile() {
+            // In a real app, this would redirect to the user's profile page
+            console.log('Viewing user profile');
+            window.location.href = 'admin-edit-user.html';
+        }
+        
+        // Action buttons functionality
+        document.querySelectorAll('.action-buttons .btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const action = this.textContent.trim();
+                console.log(`${action} button clicked`);
+                
+                // Simulate different actions based on button clicked
+                switch(action) {
+                    case 'Approve':
+                        alert('Investment approved successfully!');
+                        break;
+                    case 'Pause':
+                        alert('Investment paused temporarily');
+                        break;
+                    case 'Edit':
+                        alert('Edit investment details');
+                        break;
+                    case 'Pay Profit':
+                        alert('Daily profit paid to user');
+                        break;
+                    case 'View User Profile':
+                        viewUserProfile();
+                        break;
+                    case 'Contact User':
+                        alert('Opening contact form for user');
+                        break;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

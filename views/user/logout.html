@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USDT Investment Platform - Logout</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        /* Logout Card */
+        .logout-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .logout-icon {
+            font-size: 3rem;
+            color: #1a237e;
+            margin-bottom: 20px;
+        }
+        
+        .logout-title {
+            font-size: 1.5rem;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+        
+        .logout-message {
+            margin-bottom: 25px;
+            color: #666;
+        }
+        
+        .logout-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        
+        .btn-outline {
+            border: 1px solid #1a237e;
+            color: #1a237e;
+            background: transparent;
+        }
+        
+        .btn-outline:hover {
+            background-color: #e8eaf6;
+        }
+        
+        .btn-primary {
+            background-color: #1a237e;
+            color: white;
+            border: 1px solid #1a237e;
+        }
+        
+        .btn-primary:hover {
+            background-color: #303f9f;
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-card">
+        <div class="logout-icon">🔒</div>
+        <h2 class="logout-title">Logout Confirmation</h2>
+        <p class="logout-message">Are you sure you want to logout of your account?</p>
+        <div class="logout-actions">
+            <a href="dashboard.html" class="btn btn-outline">Cancel</a>
+            <a href="login.html" class="btn btn-primary" id="logoutBtn">Logout</a>
+        </div>
+    </div>
+    
+    <script>
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // In a real app, this would call a logout API endpoint
+            console.log('User logged out');
+            
+            // Redirect to login page after logout
+            window.location.href = '../login.html';
+        });
+    </script>
+</body>
+</html>
