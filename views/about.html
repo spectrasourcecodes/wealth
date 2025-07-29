@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USDT Investment Platform</title>
+    <title>About Us | USDT Investment Platform</title>
     <style>
-        /* Global Styles */
+        /* Copy all the CSS from your original template here */
+
         * {
             margin: 0;
             padding: 0;
@@ -323,6 +324,59 @@
                 grid-template-columns: repeat(4, 1fr);
             }
         }
+        /* ... */
+        
+        /* Additional styles for About page */
+        .about-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .about-content h2 {
+            color: #1a237e;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .about-content p {
+            margin-bottom: 15px;
+        }
+        
+        .team-section {
+            margin-top: 40px;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .team-member {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .team-member img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .team-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
@@ -337,9 +391,9 @@
         </div>
         <nav class="mobile-menu-links">
             <a href="index.html">Home</a>
-            <a href="#">About</a>
+            <a href="about.html">About</a>
             <a href="#">Investments</a>
-            <a href="#">FAQ</a>
+            <a href="faq.html">FAQ</a>
             <a href="login.html">Login</a>
             <a href="signup.html">Register</a>
         </nav>
@@ -366,70 +420,51 @@
         </div>
     </header>
     
-    <!-- Hero Section -->
+    <!-- About Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Grow Your USDT Investments</h1>
-            <p>Secure, transparent, and high-yield USDT investment platform with daily returns</p>
-            <div class="hero-buttons">
-                <a href="signup.html" class="btn btn-primary">Get Started</a>
-                <a href="#" class="btn btn-outline">Learn More</a>
-            </div>
+            <h1>About Our Platform</h1>
+            <p>Learn more about our mission, values, and the team behind our USDT investment platform</p>
         </div>
     </section>
     
-    <!-- Features Section -->
-    <section class="features container">
-        <h2 class="section-title">Why Choose Our Platform</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3>Secure</h3>
-                <p>Advanced security measures to protect your investments and personal data.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📈</div>
-                <h3>High Returns</h3>
-                <p>Competitive daily returns on your USDT investments.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⏱️</div>
-                <h3>Fast Withdrawals</h3>
-                <p>Quick and easy withdrawal process with no hidden fees.</p>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Stats Section -->
-    <section class="stats container">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number">$10M+</div>
-                <div class="stat-label">Total Invested</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">5K+</div>
-                <div class="stat-label">Active Users</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">24/7</div>
-                <div class="stat-label">Support</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">2+</div>
-                <div class="stat-label">Years Operating</div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- CTA Section -->
+    <!-- About Content -->
     <section class="container">
-        <div class="cta">
-            <h2>Ready to Start Investing?</h2>
-            <p>Join thousands of investors growing their USDT with our platform</p>
-            <div class="hero-buttons">
-                <a href="signup.html" class="btn btn-primary">Register Now</a>
+        <div class="about-content">
+            <h2>Our Story</h2>
+            <p>Founded in 2021, USDT Investment Platform was created with a simple mission: to provide cryptocurrency investors with a secure and reliable way to grow their USDT holdings. Our team of blockchain experts and financial analysts came together to build a platform that combines the stability of USDT with innovative investment strategies.</p>
+            
+            <p>In just two years, we've grown to serve thousands of investors worldwide, helping them achieve their financial goals through our transparent and user-friendly platform.</p>
+            
+            <h2>Our Mission</h2>
+            <p>We believe that cryptocurrency investment should be accessible to everyone. Our mission is to democratize access to high-yield investment opportunities while maintaining the highest standards of security and transparency.</p>
+            
+            <div class="team-section">
+                <h2>Meet Our Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Team Member">
+                        <h3>John Smith</h3>
+                        <p>CEO & Founder</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Team Member">
+                        <h3>Sarah Johnson</h3>
+                        <p>Chief Investment Officer</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Team Member">
+                        <h3>Michael Chen</h3>
+                        <p>Head of Security</p>
+                    </div>
+                </div>
             </div>
+            
+            <h2>Our Values</h2>
+            <p><strong>Transparency:</strong> We provide clear information about our investment strategies and fees.</p>
+            <p><strong>Security:</strong> Your funds and data are protected with industry-leading security measures.</p>
+            <p><strong>Innovation:</strong> We continuously improve our platform to offer the best investment opportunities.</p>
+            <p><strong>Customer Focus:</strong> Our support team is available 24/7 to assist you with any questions.</p>
         </div>
     </section>
     
@@ -437,11 +472,11 @@
     <footer>
         <div class="container">
             <div class="footer-links">
-                <a href="#">About Us</a>
+                <a href="about.html">About Us</a>
                 <a href="#">Terms of Service</a>
                 <a href="#">Privacy Policy</a>
                 <a href="#">Contact</a>
-                <a href="#">FAQ</a>
+                <a href="faq.html">FAQ</a>
             </div>
             <div class="social-links">
                 <a href="#">📱</a>
@@ -454,7 +489,7 @@
     </footer>
     
     <script>
-        // Mobile menu functionality
+        // Mobile menu functionality (same as original)
         const openMenuBtn = document.getElementById('openMenuBtn');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');

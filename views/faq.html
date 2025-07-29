@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USDT Investment Platform</title>
+    <title>FAQ | USDT Investment Platform</title>
     <style>
-        /* Global Styles */
+        /* Copy all the CSS from your original template here */
+
         * {
             margin: 0;
             padding: 0;
@@ -323,6 +324,60 @@
                 grid-template-columns: repeat(4, 1fr);
             }
         }
+        /* ... */
+        
+        /* Additional styles for FAQ page */
+        .faq-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        
+        .faq-question {
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            display: none;
+            padding: 10px 0;
+        }
+        
+        .faq-answer.active {
+            display: block;
+        }
+        
+        .faq-toggle {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .faq-toggle.active {
+            transform: rotate(45deg);
+        }
+        
+        .contact-section {
+            text-align: center;
+            margin-top: 40px;
+        }
     </style>
 </head>
 <body>
@@ -337,9 +392,9 @@
         </div>
         <nav class="mobile-menu-links">
             <a href="index.html">Home</a>
-            <a href="#">About</a>
+            <a href="about.html">About</a>
             <a href="#">Investments</a>
-            <a href="#">FAQ</a>
+            <a href="faq.html">FAQ</a>
             <a href="login.html">Login</a>
             <a href="signup.html">Register</a>
         </nav>
@@ -366,69 +421,81 @@
         </div>
     </header>
     
-    <!-- Hero Section -->
+    <!-- FAQ Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Grow Your USDT Investments</h1>
-            <p>Secure, transparent, and high-yield USDT investment platform with daily returns</p>
-            <div class="hero-buttons">
-                <a href="signup.html" class="btn btn-primary">Get Started</a>
-                <a href="#" class="btn btn-outline">Learn More</a>
-            </div>
+            <h1>Frequently Asked Questions</h1>
+            <p>Find answers to common questions about our USDT investment platform</p>
         </div>
     </section>
     
-    <!-- Features Section -->
-    <section class="features container">
-        <h2 class="section-title">Why Choose Our Platform</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3>Secure</h3>
-                <p>Advanced security measures to protect your investments and personal data.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📈</div>
-                <h3>High Returns</h3>
-                <p>Competitive daily returns on your USDT investments.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⏱️</div>
-                <h3>Fast Withdrawals</h3>
-                <p>Quick and easy withdrawal process with no hidden fees.</p>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Stats Section -->
-    <section class="stats container">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number">$10M+</div>
-                <div class="stat-label">Total Invested</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">5K+</div>
-                <div class="stat-label">Active Users</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">24/7</div>
-                <div class="stat-label">Support</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">2+</div>
-                <div class="stat-label">Years Operating</div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- CTA Section -->
+    <!-- FAQ Content -->
     <section class="container">
-        <div class="cta">
-            <h2>Ready to Start Investing?</h2>
-            <p>Join thousands of investors growing their USDT with our platform</p>
-            <div class="hero-buttons">
-                <a href="signup.html" class="btn btn-primary">Register Now</a>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is USDT Investment Platform?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>USDT Investment Platform is a cryptocurrency investment service that allows you to earn daily returns on your USDT (Tether) holdings. We use advanced trading strategies and blockchain technologies to generate profits that are shared with our investors.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How do I start investing?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>To start investing, simply create an account, deposit USDT into your wallet, and choose an investment plan. Our platform is designed to be user-friendly, and you can start earning returns immediately after your deposit.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is my investment safe?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We prioritize the security of your funds with multiple layers of protection including cold storage for the majority of assets, two-factor authentication, and regular security audits. However, as with any investment, there are inherent risks in cryptocurrency markets.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What are the fees?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We charge a 10% performance fee on profits earned. There are no deposit fees, and withdrawal fees are minimal to cover blockchain network costs. All fees are clearly displayed before you confirm any transactions.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How often are returns paid?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Returns are calculated and credited to your account daily. You can choose to compound your earnings or withdraw them to your personal wallet at any time.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is the minimum investment?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>The minimum investment is 100 USDT. This allows investors of all levels to participate while ensuring the platform remains efficient for all users.</p>
+                </div>
+            </div>
+            
+            <div class="contact-section">
+                <h2>Still have questions?</h2>
+                <p>Our support team is available 24/7 to assist you.</p>
+                <a href="contact.html" class="btn btn-primary">Contact Support</a>
             </div>
         </div>
     </section>
@@ -437,11 +504,11 @@
     <footer>
         <div class="container">
             <div class="footer-links">
-                <a href="#">About Us</a>
+                <a href="about.html">About Us</a>
                 <a href="#">Terms of Service</a>
                 <a href="#">Privacy Policy</a>
                 <a href="#">Contact</a>
-                <a href="#">FAQ</a>
+                <a href="faq.html">FAQ</a>
             </div>
             <div class="social-links">
                 <a href="#">📱</a>
@@ -454,7 +521,7 @@
     </footer>
     
     <script>
-        // Mobile menu functionality
+        // Mobile menu functionality (same as original)
         const openMenuBtn = document.getElementById('openMenuBtn');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -476,6 +543,18 @@
             mobileMenu.classList.remove('active');
             overlay.classList.remove('active');
             document.body.style.overflow = '';
+        });
+        
+        // FAQ toggle functionality
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const toggle = question.querySelector('.faq-toggle');
+                
+                answer.classList.toggle('active');
+                toggle.classList.toggle('active');
+            });
         });
     </script>
 </body>
